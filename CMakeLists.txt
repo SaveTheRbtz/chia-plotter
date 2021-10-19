@@ -9,6 +9,20 @@ execute_process(
 )
 add_definitions("-DGIT_COMMIT_HASH=\"${GIT_COMMIT_HASH}\"")
 
+add_link_options("-fuse-ld=lld")
+add_link_options("-Wl,--emit-relocs")
+add_link_options("-Wl,--no-rosegment")
+add_link_options("-Wl,-Bsymbolic-functions")
+add_link_options("-L/usr/lib/libjemalloc_pic.a")
+add_link_options("-L/usr/lib/libsodium.a")
+add_link_options("-L/usr/lib/libgmp.a")
+#add_link_options("-lpthread")
+#add_link_options("-ldl")
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static -lrt -pthread -Wl,--whole-archive -lpthread -Wl,--no-whole-archive")
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+set(BUILD_SHARED_LIBS OFF)
+
 project(chia-plotter C CXX ASM)
 
 # Add path for custom modules
@@ -36,8 +50,6 @@ if (SODIUM_FOUND)
   message(STATUS "Sodium include dir = ${sodium_INCLUDE_DIR}")
   include_directories(${sodium_INCLUDE_DIR})
 endif()
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-unused-function")
 
 set(BLAKE3_PATH lib/BLAKE3/c)
 set(FSE_PATH lib/FSE/lib)
@@ -118,4 +130,4 @@ target_link_libraries(test_phase_4 chia_plotter)
 
 target_link_libraries(check_phase_1 chia_plotter)
 
-target_link_libraries(chia_plot chia_plotter bls sodium)
+target_link_libraries(chia_plot chia_plotter bls)
