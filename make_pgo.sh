@@ -22,7 +22,7 @@ for arch in haswell broadwell; do
 
     make -j8 chia_plot
 
-    perf record -F99 -b -o ${DIR1}/perf.data -- ${DIR1}/chia_plot -d ../final/ -t ../tmp1/ -2 ../tmp2/ -f b5413da029c51777daccf9d7b7e751517a323fe5b3620a1854aef185e94473833268b18b21868193dfc9a9401ae5d87b -c xch1atw03wsw8em3kf29xelsh4msk4g3732u63yv6tdgt355p8707y4sd4aewx -r 8
+    perf record -F99 -b -o ${DIR1}/perf.data -- ${DIR1}/chia_plot -D -d ../final/ -t ../tmp1/ -2 ../tmp2/ -f b5413da029c51777daccf9d7b7e751517a323fe5b3620a1854aef185e94473833268b18b21868193dfc9a9401ae5d87b -c xch1atw03wsw8em3kf29xelsh4msk4g3732u63yv6tdgt355p8707y4sd4aewx -r 8
 
     create_llvm_prof --profile=${DIR1}/perf.data --binary=${DIR1}/chia_plot --out=${DIR1}/code.prof
 
@@ -37,7 +37,7 @@ for arch in haswell broadwell; do
 
     make -j8 chia_plot
 
-    perf record -F99 -b -e cycles:u -o ${DIR2}/perf.data -- ${DIR2}/chia_plot -d ../final/ -t ../tmp1/ -2 ../tmp2/ -f b5413da029c51777daccf9d7b7e751517a323fe5b3620a1854aef185e94473833268b18b21868193dfc9a9401ae5d87b -c xch1atw03wsw8em3kf29xelsh4msk4g3732u63yv6tdgt355p8707y4sd4aewx -r 8
+    perf record -F99 -b -e cycles:u -o ${DIR2}/perf.data -- ${DIR2}/chia_plot -D -d ../final/ -t ../tmp1/ -2 ../tmp2/ -f b5413da029c51777daccf9d7b7e751517a323fe5b3620a1854aef185e94473833268b18b21868193dfc9a9401ae5d87b -c xch1atw03wsw8em3kf29xelsh4msk4g3732u63yv6tdgt355p8707y4sd4aewx -r 8
 
 
     /home/rbtz/porn/llvm-bolt-build/bin/perf2bolt -p ${DIR2}/perf.data -o ${DIR2}/perf.fdata ${DIR2}/chia_plot || :
